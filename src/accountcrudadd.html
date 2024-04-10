@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Account CRUD</title>
+<style>
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  th, td {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+  th {
+    background-color: #f2f2f2;
+  }
+  .action-buttons {
+    margin-bottom: 20px;
+  }
+  .action-button1 {
+    margin-bottom: 20px;
+    margin-top: 20px;
+    padding: 16px 24px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  .button-container {
+    margin-top: 20px;
+    position: relative; /* Added positioning */
+    width: 100%; /* Added width */
+    height: 100%; /* Added height */
+  }
+  .add-button {
+    background-color: green;
+    color: white;
+  }
+  .edit-button {
+    background-color: rgb(49, 49, 248);
+    color: white;
+    padding: 14px 22px; /* Adjusted padding */
+    font-size: 16px; /* Adjusted font size */
+    border: none;
+  }
+  .delete-button {
+    background-color: rgb(238, 51, 51);
+    color: white;
+    padding: 14px 22px; /* Adjusted padding */
+    font-size: 16px; /* Adjusted font size */
+    border: none;
+  }
+  /* New form styles */
+  #addStudentForm {
+    display: flex;
+    position: absolute;
+    bottom: -275px; /* Adjusted position */
+    left: 10px;
+    width: 200px; /* Edit size here */
+    height: 275px; /* Edit size here */
+    padding: 20px;
+    border: 1px solid #dddddd;
+    border-radius: 4px;
+    background-color: #f2f2f2;
+    margin-bottom: 20px;
+  }
+  #addStudentForm {
+    margin-top: 0; /* Adjusted margin */
+  }
+  #addStudentForm label {
+    display: block;
+    margin-bottom: 8px;
+  }
+  #addStudentForm input[type="text"],
+  #addStudentForm input[type="password"],
+  #addStudentForm input[type="submit"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #dddddd;
+    border-radius: 4px;
+    margin-bottom: 8px;
+    box-sizing: border-box;
+  }
+  #addStudentForm input[type="submit"] {
+    background-color: green;
+    color: white;
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+<h1>Account CRUD</h1>
+<div class="button-container">
+  <button class="action-button1 add-button">Add Student</button>
+</div>
+<div id="output"></div>
+<h1>Add Student</h1>
+<!-- Form for adding a new student -->
+
+<div id="addStudentForm">
+<form action="http://localhost:8050/accountcrudadd" method="POST">  
+  <form id="studentForm">
+    <label for="id">ID:</label>
+    <input type="text" id="id" name="id"><br>
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username"><br>
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password"><br>
+    <input type="submit" value="Submit">
+  </form>
+</div>
+
+<script>
+fetch("http://localhost:8050/accountcrud")
+  .then(response => response.json())
+  .then(data => {
+    const outputDiv = document.getElementById("output");
+    if (data.error) {
+      outputDiv.innerText = "An error occurred: " + data.error;
+    } else {
+      const table = document.createElement("table");
+      const headerRow = table.insertRow(0);
+      Object.keys(data[0]).forEach(key => {
+        const headerCell = document.createElement("th");
+        headerCell.textContent = key;
+        headerRow.appendChild(headerCell);
+      });
+      headerRow.insertCell().textContent = "Action";
+
+      data.forEach(rowData => {
+        const row = table.insertRow();
+        Object.entries(rowData).forEach(([key, value]) => {
+          const cell = row.insertCell();
+          cell.textContent = value;
+          if (key === "password") {
+            const actionCell = row.insertCell();
+            const editButton = document.createElement("button");
+            editButton.className = "action-button edit-button";
+            editButton.textContent = "Edit";
+            actionCell.appendChild(editButton);
+
+            const deleteButton = document.createElement("button");
+            deleteButton.className = "action-button delete-button";
+            deleteButton.textContent = "Delete";
+            actionCell.appendChild(deleteButton);
+          }
+        });
+      });
+      outputDiv.appendChild(table);
+    }
+  })
+  .catch(error => {
+    console.error("Error:", error);
+    document.getElementById("output").innerText = "An error occurred. Please try again.";
+  });
+
+// Show the add student form when the "Add Student" button is clicked
+document.querySelector(".add-button").addEventListener("click", function() {
+  redirectToAddPage();
+});
+
+function redirectToAddPage() {
+  window.location.href = "accountcrudadd.html";
+}
+
+// Submit form data
+document.getElementById("studentForm").addEventListener("submit", function(event) {
+  event.preventDefault();
+  const formData = new FormData(event.target);
+  const id = formData.get("id");
+  const username = formData.get("username");
+  const password = formData.get("password");
+  
+  // Perform your fetch request to add the student here
+  console.log("Adding student with ID:", id, "Username:", username, "Password:", password);
+});
+
+</script>
+</body>
+</html>

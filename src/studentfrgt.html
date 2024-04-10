@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: linear-gradient(to bottom, #007bff, #ffffff, #cccccc); /* Gradient background */
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            padding: 15px 30px; /* Added padding to the sides */
+        }
+
+        .login-box {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            max-width: 800px; /* Set maximum width */
+            padding: 40px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #fff; /* Added background color */
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            width: 100%;
+            max-width: 300px; /* Limit input and button width */
+            text-align: center; /* Align form elements to center */
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            text-align: center; /* Align labels to center */
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="password"],
+        .form-group input[type="email"],
+        .form-group button {
+            width: 100%; /* Set inputs and button width to 100% */
+            padding: 12px; /* Increased padding */
+            border-radius: 5px;
+            border: 2px solid #ccc;
+            box-sizing: border-box; /* Include padding and border in the width */
+        }
+
+        #toggleButton {
+            background-color: #ccc;
+            color: #000000;
+            border: none;
+            border-radius: 5px;
+            padding: 8px 12px; /* Smaller padding */
+            margin-bottom: 10px;
+            cursor: pointer;
+            font-size: 14px; /* Smaller font size */
+        }
+
+        #toggleButton:hover {
+            background-color: #999; /* Darker gray on hover */
+        }
+
+        #loginButton {
+            background-color: #007bff; /* Changed background color to blue */
+            padding: 15px;
+            font-size: 16px;
+            border-radius: 5px; /* Added border radius */
+            color: #fff; /* Changed text color */
+            width: 100%; /* Set button width to 100% */
+        }
+
+        #loginButton:hover {
+            background-color: #0056b3;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="login-box">
+            
+            <div class="form-group">
+                <label for="usernameOrEmail">Username:</label>
+                <input type="text" id="usernameOrEmail" name="usernameOrEmail" placeholder="Enter your username">
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password">
+            </div>
+            <div class="form-group">
+                <label for="confirmPassword">Confirm Password:</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password">
+            </div>
+            <div class="tonggle">
+                <button id="toggleButton">Use Email</button>
+            </div>
+            <div class="form-group">
+                <button id="loginButton">Reset Password</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    const toggleButton = document.getElementById('toggleButton');
+const usernameOrEmailLabel = document.querySelector('label[for="usernameOrEmail"]');
+
+toggleButton.addEventListener('click', () => {
+    const currentText = toggleButton.textContent;
+    if (currentText === 'Use Email') {
+        toggleButton.textContent = 'Use Username';
+        usernameOrEmailLabel.textContent = 'Username:';
+        document.getElementById('usernameOrEmail').setAttribute('type', 'text');
+        document.getElementById('usernameOrEmail').setAttribute('placeholder', 'Enter your username');
+    } else {
+        toggleButton.textContent = 'Use Email';
+        usernameOrEmailLabel.textContent = 'Email:';
+        document.getElementById('usernameOrEmail').setAttribute('type', 'email');
+        document.getElementById('usernameOrEmail').setAttribute('placeholder', 'Enter your email');
+    }
+});
+
+
+        const loginButton = document.getElementById('loginButton');
+
+        loginButton.addEventListener('click', () => {
+            const usernameOrEmail = document.getElementById('usernameOrEmail').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+            if (password !== confirmPassword) {
+                alert('Passwords do not match');
+                return;
+            }
+
+            // Here you can send a request to your backend to reset the password
+            // For example, using fetch API
+            fetch('/reset-password', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ usernameOrEmail, password }),
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert('Password reset successful');
+                    // Redirect to another page
+                    window.location.href = 'student.html'; // Change the URL to the desired redirect location
+                } else {
+                    throw new Error('Failed to reset password');
+                }
+            })
+            .catch(error => {
+                alert(error.message);
+            });
+        });
+    </script>
+</body>
+</html>

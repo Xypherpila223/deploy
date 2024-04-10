@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Account CRUD</title>
+<style>
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  th, td {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+  th {
+    background-color: #f2f2f2;
+  }
+  .action-buttons {
+    margin-bottom: 20px;
+  }
+  .action-button1 {
+    margin-bottom: 20px;
+    margin-top: 20px;
+    padding: 16px 24px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  .button-container {
+    margin-top: 20px;
+  }
+  .action-button {
+    padding: 14px 22px;
+    margin-right: 8px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  .add-button {
+    background-color: green;
+    color: white;
+  }
+  .edit-button {
+    background-color: blue;
+    color: white;
+  }
+  .delete-button {
+    background-color: red;
+    color: white;
+  }
+</style>
+</head>
+<body>
+<h1>Account CRUD</h1>
+<div class="button-container">
+  <button class="action-button1 add-button" onclick="redirectToAddPage()">Add Student</button>
+</div>
+<div id="output"></div>
+
+<script>
+function redirectToAddPage() {
+  window.location.href = "accountcrudadd.html";
+}
+
+fetch("http://localhost:8040/accountcrud")
+  .then(response => response.json())
+  .then(data => {
+    const outputDiv = document.getElementById("output");
+    if (data.error) {
+      outputDiv.innerText = "An error occurred: " + data.error;
+    } else {
+      const table = document.createElement("table");
+      const headerRow = table.insertRow(0);
+      Object.keys(data[0]).forEach(key => {
+        const headerCell = document.createElement("th");
+        headerCell.textContent = key;
+        headerRow.appendChild(headerCell);
+      });
+      headerRow.insertCell().textContent = "Action";
+
+      data.forEach(rowData => {
+        const row = table.insertRow();
+        Object.entries(rowData).forEach(([key, value]) => {
+          const cell = row.insertCell();
+          cell.textContent = value;
+          if (key === "password") {
+            const actionCell = row.insertCell();
+            const editButton = document.createElement("button");
+            editButton.className = "action-button edit-button";
+            editButton.textContent = "Edit";
+            actionCell.appendChild(editButton);
+
+            const deleteButton = document.createElement("button");
+            deleteButton.className = "action-button delete-button";
+            deleteButton.textContent = "Delete";
+            actionCell.appendChild(deleteButton);
+          }
+        });
+      });
+      outputDiv.appendChild(table);
+    }
+  })
+  .catch(error => {
+    console.error("Error:", error);
+    document.getElementById("output").innerText = "An error occurred. Please try again.";
+  });
+</script>
+</body>
+</html>

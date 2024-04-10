@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh; /* Ensure the body takes up at least the full height of the viewport */
+            background-image: linear-gradient(to bottom, #007bff, #ffffff, #cccccc); /* Gradient background */
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 900px; /* Adjusted max-width for wider container */
+            margin: 0 auto;
+            padding: 20px;
+            backdrop-filter: blur(10px); /* Apply blur effect to the container */
+            background-color: rgba(255, 255, 255, 0.5); /* Transparent background */
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            flex: 1; /* Grow to fill remaining vertical space */
+            overflow-y: auto; /* Allow the container to scroll if content overflows */
+            margin-bottom: 20px; /* Add space between the container and the footer */
+        }
+        .center-text {
+            margin-bottom: 20px; /* Add space between the inputs and the centered text */
+        }
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            width: 100%;
+        }
+        .form-group {
+            flex: 0 0 48%; /* Adjust the width of each input group */
+            margin-bottom: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .form-group label {
+            margin-bottom: 5px;
+            align-self: flex-start;
+        }
+        .form-group input[type="text"],
+        .form-group input[type="password"],
+        .form-group input[type="email"],
+        .form-group input[type="number"],
+        .form-group select {
+            width: 100%;
+            padding: 8px;
+            border-radius: 5px;
+            border: 2px solid #ccc;
+            box-sizing: border-box; /* Include padding and border in the element's total width and height */
+        }
+        button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 200px; /* Set a fixed width for the button */
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .error {
+            color: red;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+        footer {
+            background-color: #ccc;
+            text-align: center;
+            padding: 10px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <form action="http://localhost:8080/registration" method="POST">
+    <div class="container">
+        <h1 class="center-text">Student Register</h1>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="schoolId">School ID:</label>
+                <input type="text" id="schoolId" name="schoolId" placeholder="Enter your school ID">
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="lastname">Last Name:</label>
+                <input type="text" id="lastname" name="lastname" placeholder="Enter your last name">
+            </div>
+            <div class="form-group">
+                <label for="course">Course:</label>
+                <select id="course" name="course">
+                    <option value="">Select course</option>
+                    <option value="BSCS">BSCS</option>
+                    <option value="BSBA">BSBA</option>
+                    <option value="BSTM">BSTM</option>
+                    <option value="BSHM">BSHM</option>
+                    <option value="BSED">BSED</option>
+                    <option value="BSPOLSCI">BSPOLSCI</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="firstname">First Name:</label>
+                <input type="text" id="firstname" name="firstname" placeholder="Enter your first name">
+            </div>
+            <div class="form-group">
+                <label for="section">Section:</label>
+                <input type="text" id="section" name="section" placeholder="Enter your section">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="middleInitial">M.I:</label>
+                <input type="text" id="middleInitial" name="middleInitial" maxlength="1" placeholder="Enter your middle initial">
+            </div>
+            <div class="form-group">
+                <label for="year">Year Level:</label>
+                <select id="year" name="year">
+                    <option value="">Select year level</option>
+                    <option value="1ST YEAR">1ST YEAR</option>
+                    <option value="2ND YEAR">2ND YEAR</option>
+                    <option value="3RD YEAR">3RD YEAR</option>
+                    <option value="4TH YEAR">4TH YEAR</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="age">Age:</label>
+                <input type="number" id="age" name="age" placeholder="Enter your age">
+            </div>
+            <div class="form-group">
+                <label for="contact">Contact:</label>
+                <input type="text" id="contact" name="contact" placeholder="Enter your contact number">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" placeholder="Enter your username">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password">
+            </div>
+            <div class="form-group">
+                <label for="confirmPassword">Confirm Password:</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password">
+            </div>
+        </div>
+        <button id="registerButton">Register</button>
+        <div id="error-message" class="error"></div>
+    </div>
+    <footer>
+        <p>© SCCInventory - For school purpose only</p>
+    </footer>
+    <script>
+        document.getElementById('registerButton').addEventListener('click', function() {
+            var password = document.getElementById('password').value;
+            var confirmPassword = document.getElementById('confirmPassword').value;
+            if (password !== confirmPassword) {
+                document.getElementById('error-message').textContent = 'Passwords do not match';
+            } else {
+                document.getElementById('error-message').textContent = '';
+                // Form submission code here
+            }
+        });
+    </script>
+    <script src="registration.js"></script>
+</body>
+</html>
